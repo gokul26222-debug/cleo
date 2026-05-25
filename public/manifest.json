@@ -1,0 +1,93 @@
+{
+  "name": "Cléo - Paris Student Assistant",
+  "short_name": "Cléo",
+  "description": "Your complete Paris onboarding guide for international students. Manage bureaucracy, find housing, explore the city. Coming soon to EU cities!",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["education", "travel"],
+  "shortcuts": [
+    {
+      "name": "7-Day Checklist",
+      "short_name": "Checklist",
+      "description": "View your 7-day onboarding checklist",
+      "url": "/checklist",
+      "icons": [
+        {
+          "src": "/shortcut-checklist.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Schedule Appointment",
+      "short_name": "Appointments",
+      "description": "Schedule appointments for essential services",
+      "url": "/appointments",
+      "icons": [
+        {
+          "src": "/shortcut-appointments.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Ask Cleo AI",
+      "short_name": "Chat",
+      "description": "Chat with your AI assistant",
+      "url": "/chat",
+      "icons": [
+        {
+          "src": "/shortcut-chat.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

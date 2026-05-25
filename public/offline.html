@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cléo - Offline</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    .icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      color: #1a202c;
+      margin-bottom: 12px;
+    }
+    p {
+      color: #718096;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .features {
+      background: #f7fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .features h3 {
+      font-size: 14px;
+      color: #2d3748;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4a5568;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .feature-item:last-child {
+      margin-bottom: 0;
+    }
+    .feature-item::before {
+      content: "✓";
+      color: #48bb78;
+      font-weight: bold;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    button:active {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🗼</div>
+    <h1>You're Offline</h1>
+    <p>Cléo is currently unavailable without internet connection. Please check your connection and try again.</p>
+
+    <div class="features">
+      <h3>What you can do:</h3>
+      <div class="feature-item">Access cached pages when back online</div>
+      <div class="feature-item">Continue your checklist progress</div>
+      <div class="feature-item">View your saved appointments</div>
+    </div>
+
+    <button onclick="location.reload()">Try Again</button>
+  </div>
+</body>
+</html>
