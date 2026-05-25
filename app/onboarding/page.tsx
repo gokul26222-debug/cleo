@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { storage } from "@/lib/storage";
@@ -53,6 +53,15 @@ const STEPS = [
 
 /* ── Praise overlay shown briefly after each step ────── */
 function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
+  const hasFired = useRef(false);
+
+  const handleAnimComplete = () => {
+    // Only fire once — prevent double-trigger from exit animation
+    if (hasFired.current) return;
+    hasFired.current = true;
+    setTimeout(onDone, 700);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -65,7 +74,7 @@ function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        onAnimationComplete={() => setTimeout(onDone, 700)}
+        onAnimationComplete={handleAnimComplete}
         className="bg-white rounded-3xl px-10 py-8 shadow-2xl text-center"
       >
         <p className="text-3xl font-black text-slate-900">{text}</p>
@@ -114,10 +123,15 @@ export default function OnboardingPage() {
     }
   };
 
+  const praiseDoneRef = useRef(false);
   const handlePraiseDone = () => {
+    if (praiseDoneRef.current) return; // prevent double-fire
+    praiseDoneRef.current = true;
     setShowPraise(false);
     setDirection(1);
     setStep((s) => (s + 1) as Step);
+    // Reset after a short delay so next praise can work
+    setTimeout(() => { praiseDoneRef.current = false; }, 500);
   };
 
   const goBack = () => {
