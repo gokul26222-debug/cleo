@@ -53,7 +53,7 @@ export default function LandingPage() {
         {/* Mascot */}
         <div className="animate-fade-up text-center mb-5">
           <div className="relative inline-block mb-4">
-            <div className="animate-float w-32 h-32 bg-gradient-to-br from-sky-400 to-blue-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-sky-200 mx-auto animate-tilt-3d">
+            <div className="animate-float w-32 h-32 bg-gradient-to-br from-sky-400 to-blue-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-sky-200 mx-auto">
               <span className="text-6xl">🗼</span>
             </div>
             {/* Speech bubble */}
@@ -64,7 +64,7 @@ export default function LandingPage() {
 
           <h1 className="text-4xl font-black text-slate-900 leading-tight mb-3 tracking-tight">
             Navigate Paris<br />
-            <span className="gradient-text">like a local.</span>
+            <span className="text-sky-500">like a local.</span>
           </h1>
           <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto">
             Your 7-day AI guide to everything international students need — no French required.
@@ -81,7 +81,7 @@ export default function LandingPage() {
         </div>
 
         {/* Testimonial rotator */}
-        <div className="animate-fade-up delay-300 w-full glass rounded-2xl p-4 shadow-sm mb-5 min-h-[76px] flex items-center overflow-hidden card-3d">
+        <div className="animate-fade-up delay-300 w-full bg-white rounded-2xl p-4 shadow-sm border border-slate-100 mb-5 min-h-[76px] flex items-center overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={tIdx}
@@ -119,7 +119,7 @@ export default function LandingPage() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97, y: 3 }}
             onClick={() => router.push("/onboarding")}
-            className="w-full bg-sky-500 hover:bg-sky-400 active:bg-sky-600 text-white font-black text-lg py-4 rounded-2xl transition-colors btn-3d animate-glow"
+            className="w-full bg-sky-500 hover:bg-sky-400 active:bg-sky-600 text-white font-black text-lg py-4 rounded-2xl transition-colors"
             style={{ boxShadow: "0 5px 0 #0284c7" }}
           >
             GET STARTED — FREE ✨
@@ -135,7 +135,7 @@ export default function LandingPage() {
             </motion.button>
           )}
 
-          <p className="text-center text-xs text-slate-400 font-medium pt-1 animate-shimmer bg-gradient-to-r from-slate-400 via-sky-400 to-slate-400 bg-clip-text" style={{ WebkitTextFillColor: "transparent", backgroundSize: "200% 100%" }}>
+          <p className="text-center text-xs text-slate-400 font-medium pt-1">
             No sign-up · No backend · 100% free
           </p>
         </div>

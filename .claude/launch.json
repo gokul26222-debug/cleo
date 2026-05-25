@@ -5,8 +5,7 @@
       "name": "cleo-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3002,
-      "autoPort": true
+      "port": 3002
     }
   ]
 }

@@ -201,7 +201,7 @@ function ChatContent() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
 
       {/* Header */}
-      <div className="glass px-6 pt-12 pb-4 border-b border-white/30 flex items-center justify-between flex-shrink-0 shadow-sm">
+      <div className="bg-white px-6 pt-12 pb-4 border-b border-slate-100 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
@@ -308,7 +308,7 @@ function ChatContent() {
                   key={q}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => sendMessage(q)}
-                  className="text-xs bg-white border border-slate-200 text-slate-600 rounded-full px-3 py-1.5 hover:border-sky-300 hover:text-sky-600 hover:bg-sky-50 transition shadow-sm card-3d"
+                  className="text-xs bg-white border border-slate-200 text-slate-600 rounded-full px-3 py-1.5 hover:border-sky-300 hover:text-sky-600 hover:bg-sky-50 transition shadow-sm"
                 >
                   {q}
                 </motion.button>
@@ -416,7 +416,7 @@ function ChatContent() {
             whileTap={{ scale: 0.88 }}
             onClick={() => sendMessage()}
             disabled={(!input.trim() && !attachment) || loading}
-            className="w-10 h-10 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-md hover:shadow-sky-200 transition-all flex-shrink-0 btn-3d animate-glow"
+            className="w-10 h-10 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-md hover:shadow-sky-200 transition-all flex-shrink-0"
           >
             <svg className="w-4 h-4 text-white -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

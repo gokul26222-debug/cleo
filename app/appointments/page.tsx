@@ -377,7 +377,7 @@ export default function AppointmentsPage() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden card-3d"
+            className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden"
           >
             <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/5 rounded-full" />
             <div className="absolute -right-2 -bottom-4 w-16 h-16 bg-white/5 rounded-full" />
@@ -424,54 +424,29 @@ export default function AppointmentsPage() {
           </motion.div>
         )}
 
-        {/* Govt portal quick links — organized by timeline */}
+        {/* Govt portal quick links */}
         {tab === "upcoming" && upcoming.length === 0 && (
-          <div className="space-y-5">
-            {([
-              { phase: "before_arrival", label: "Before Arrival", emoji: "📋", desc: "Critical visa & enrollment prep" },
-              { phase: "week_1", label: "Week 1", emoji: "🏠", desc: "First arrival essentials" },
-              { phase: "month_1", label: "Month 1", emoji: "📅", desc: "Establish stability" },
-              { phase: "ongoing", label: "Ongoing Support", emoji: "🍽️", desc: "Essential throughout studies" },
-            ] as const).map(({ phase, label, emoji, desc }) => {
-              const services = APPOINTMENT_TYPES.filter((t) => t.timeline === phase && t.bookingUrl && t.id !== "other");
-              if (services.length === 0) return null;
-              return (
-                <motion.div
-                  key={phase}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
+          <div>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+              Book via official portals
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {APPOINTMENT_TYPES.filter((t) => t.bookingUrl && t.id !== "other").map((t) => (
+                <a
+                  key={t.id}
+                  href={t.bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${t.color} border ${t.borderColor} rounded-2xl p-3 flex items-center gap-2 hover:opacity-80 transition`}
                 >
-                  <div className="flex items-center gap-2 mb-2 px-1">
-                    <span className="text-base">{emoji}</span>
-                    <div>
-                      <p className="text-xs font-black text-slate-700 uppercase tracking-widest">{label}</p>
-                      <p className="text-[10px] text-slate-400">{desc}</p>
-                    </div>
+                  <span className="text-xl">{t.emoji}</span>
+                  <div className="min-w-0">
+                    <p className={`text-xs font-bold ${t.textColor} leading-tight truncate`}>{t.label.split("(")[0].trim()}</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Book online ↗</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {services.map((t) => (
-                      <a
-                        key={t.id}
-                        href={t.bookingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`${t.color} border ${t.borderColor} rounded-2xl p-3 flex items-center gap-2 hover:opacity-80 transition card-3d relative`}
-                      >
-                        {/* Status badge */}
-                        <span className="absolute top-1.5 right-1.5 text-[8px] font-bold bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded-full leading-none">
-                          {t.status === "completed" ? "✅ Done" : t.status === "in_progress" ? "🔄 Active" : "○ Todo"}
-                        </span>
-                        <span className="text-xl">{t.emoji}</span>
-                        <div className="min-w-0">
-                          <p className={`text-xs font-bold ${t.textColor} leading-tight truncate`}>{t.label.split("(")[0].trim()}</p>
-                          <p className="text-[10px] text-slate-400 mt-0.5">Book online ↗</p>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
+                </a>
+              ))}
+            </div>
           </div>
         )}
 
@@ -525,7 +500,7 @@ export default function AppointmentsPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className={`bg-white rounded-2xl border-2 overflow-hidden shadow-sm transition-all card-3d ${
+                  className={`bg-white rounded-2xl border-2 overflow-hidden shadow-sm transition-all ${
                     appt.status === "cancelled" ? "opacity-50 border-slate-100" : type.borderColor
                   }`}
                 >

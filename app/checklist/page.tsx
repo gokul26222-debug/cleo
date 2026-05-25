@@ -195,7 +195,7 @@ function ChecklistContent() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.04 }}
-                    className={`bg-white rounded-2xl border-2 overflow-hidden transition-all shadow-sm card-3d ${
+                    className={`bg-white rounded-2xl border-2 overflow-hidden transition-all shadow-sm ${
                       done ? "border-green-200" : "border-slate-100"
                     }`}
                   >
@@ -289,7 +289,7 @@ function ChecklistContent() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="mt-4 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-4 glass"
+                className="mt-4 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-4"
               >
                 <h3 className="font-bold text-blue-800 text-sm mb-3 flex items-center gap-2">
                   🇫🇷 Useful French Phrases
@@ -328,7 +328,7 @@ function ChecklistContent() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                className="mt-4 w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-violet-100 flex items-center justify-center gap-2 transition btn-3d animate-glow"
+                className="mt-4 w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-violet-100 flex items-center justify-center gap-2 transition"
               >
                 <span>💬</span> Ask Cléo about {day.title}
               </motion.button>

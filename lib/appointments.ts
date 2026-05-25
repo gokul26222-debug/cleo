@@ -532,50 +532,6 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     ],
   },
 
-  // CRUZW - Health & Wellness
-  {
-    id: "cruzw",
-    label: "CRUZW (Health Services)",
-    emoji: "💊",
-    color: "bg-pink-50",
-    textColor: "text-pink-700",
-    borderColor: "border-pink-200",
-    description: "Health services coordination, medical consultations",
-    bookingUrl: "https://www.cruzw.fr/",
-    bookingLabel: "Book on CRUZW",
-    defaultLocation: "CRUZW Paris",
-    timeline: "month_1",
-    status: "not_started",
-    tips: [
-      "Access health services and medical consultations",
-      "Register for health programs and wellness resources",
-      "Book medical appointments through the platform",
-      "Connect with healthcare providers and specialists",
-    ],
-  },
-
-  // Vital Card - French Health ID
-  {
-    id: "vital_card",
-    label: "Vital Card (Carte Vitale)",
-    emoji: "🆔",
-    color: "bg-amber-50",
-    textColor: "text-amber-700",
-    borderColor: "border-amber-200",
-    description: "French health insurance card, medical reimbursements",
-    bookingUrl: "https://www.ameli.fr/assure/mes-documents/",
-    bookingLabel: "Manage on Ameli",
-    defaultLocation: "Online or at CPAM office",
-    timeline: "month_1",
-    status: "not_started",
-    tips: [
-      "Request your Carte Vitale through Ameli.fr",
-      "Takes 3-6 weeks to arrive by post",
-      "Needed for all doctor visits and prescriptions",
-      "Print your Attestation de droits as temporary proof while waiting",
-    ],
-  },
-
   {
     id: "other",
     label: "Other Appointment",

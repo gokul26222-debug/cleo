@@ -88,7 +88,7 @@ export default function SupportPage() {
               Support
             </span>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight animate-shimmer bg-gradient-to-r from-white via-indigo-200 to-white bg-clip-text" style={{ WebkitTextFillColor: "transparent", backgroundSize: "200% 100%" }}>
+          <h1 className="text-3xl font-extrabold tracking-tight">
             Help & Feedback 💬
           </h1>
           <p className="text-indigo-200 text-sm mt-1">
@@ -103,10 +103,10 @@ export default function SupportPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass rounded-2xl p-5 shadow-sm card-3d"
+          className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100"
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-xl animate-wiggle">
+            <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-xl">
               📧
             </div>
             <div>
@@ -175,7 +175,7 @@ export default function SupportPage() {
                     key={type.id}
                     whileTap={{ scale: 0.96 }}
                     onClick={() => setSelectedType(type.id)}
-                    className={`flex items-center gap-2 px-3 py-3 rounded-xl border-2 text-left transition-all card-3d ${
+                    className={`flex items-center gap-2 px-3 py-3 rounded-xl border-2 text-left transition-all ${
                       selectedType === type.id
                         ? "border-indigo-500 bg-indigo-50 text-indigo-700"
                         : "border-slate-100 text-slate-600 hover:border-indigo-200"
@@ -246,7 +246,7 @@ export default function SupportPage() {
                 whileTap={{ scale: 0.97 }}
                 onClick={handleSubmit}
                 disabled={!selectedType || !message.trim()}
-                className="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-black text-base py-4 rounded-2xl transition-all disabled:opacity-35 disabled:cursor-not-allowed shadow-lg shadow-indigo-200 btn-3d animate-glow"
+                className="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-black text-base py-4 rounded-2xl transition-all disabled:opacity-35 disabled:cursor-not-allowed shadow-lg shadow-indigo-200"
               >
                 Send Feedback 📬
               </motion.button>
@@ -310,7 +310,7 @@ export default function SupportPage() {
           className="bg-slate-100 rounded-2xl p-5 text-center"
         >
           <p className="text-2xl mb-2">🗼</p>
-          <p className="font-extrabold text-sm gradient-text">Cleo v1.0</p>
+          <p className="font-extrabold text-slate-700 text-sm">Cleo v1.0</p>
           <p className="text-slate-500 text-xs mt-1">
             AI-Powered Paris Student Assistant
           </p>

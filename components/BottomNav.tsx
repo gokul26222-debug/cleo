@@ -5,17 +5,18 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 const navItems = [
-  { href: "/dashboard",     label: "Home",         emoji: "🏠" },
-  { href: "/chat",          label: "Ask Cleo",     emoji: "💬" },
-  { href: "/explore",       label: "Explore",      emoji: "🗺️" },
-  { href: "/appointments",  label: "Appointments", emoji: "📅" },
+  { href: "/dashboard",     label: "Home",     emoji: "🏠" },
+  { href: "/checklist",     label: "Checklist", emoji: "✅" },
+  { href: "/chat",          label: "Ask Cleo",  emoji: "💬" },
+  { href: "/explore",       label: "Explore",   emoji: "🗺️" },
+  { href: "/support",       label: "Support",   emoji: "🛟" },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 glass border-t border-white/30 z-[60] shadow-[0_-4px_30px_rgba(0,0,0,0.05)]">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-100 z-[60]">
       <div className="flex items-stretch max-w-lg mx-auto">
         {navItems.map((item) => {
           const active = pathname === item.href;

@@ -403,7 +403,7 @@ export default function ExplorePage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-3"
         >
-          <div className="glass rounded-2xl shadow-lg shadow-rose-100/50 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-lg shadow-rose-100/50 border border-slate-100 overflow-hidden">
             <div className="flex items-center px-4 py-3 gap-3">
               <span className="text-slate-400">🔍</span>
               <input
@@ -483,7 +483,7 @@ export default function ExplorePage() {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.985 }}
                   onClick={() => setExpandedPlace(expandedPlace === place.id ? null : place.id)}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 cursor-pointer transition-shadow hover:shadow-lg card-3d"
+                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 cursor-pointer transition-shadow hover:shadow-lg"
                 >
                   {/* Gradient top stripe */}
                   <div className={`h-1.5 bg-gradient-to-r ${place.gradient}`} />
