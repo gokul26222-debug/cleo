@@ -25,6 +25,8 @@ export interface AppointmentType {
   bookingLabel: string;
   defaultLocation: string;
   tips: string[];
+  timeline?: "before_arrival" | "week_1" | "month_1" | "ongoing"; // Timeline phase for onboarding
+  status?: "not_started" | "in_progress" | "completed"; // Status tracking
 }
 
 export const APPOINTMENT_TYPES: AppointmentType[] = [
@@ -39,6 +41,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.rdv-prefecture.interieur.gouv.fr/",
     bookingLabel: "Book on rdv-prefecture.gouv.fr",
     defaultLocation: "Préfecture de Police, 7-9 Blvd du Palais, Paris",
+    timeline: "before_arrival",
+    status: "not_started",
     tips: [
       "Book 4–6 weeks in advance — slots fill up extremely fast",
       "Bring original documents AND photocopies of everything",
@@ -57,6 +61,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.caf.fr/",
     bookingLabel: "Manage on caf.fr",
     defaultLocation: "CAF Paris, 103 Rue de Tolbiac, Paris 13",
+    timeline: "week_1",
+    status: "not_started",
     tips: [
       "Most CAF interactions can be done fully online at caf.fr",
       "Only visit in person if you have a specific urgent issue",
@@ -75,6 +81,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.ameli.fr/",
     bookingLabel: "Manage on ameli.fr",
     defaultLocation: "CPAM Paris, 173-175 Rue de Bercy, Paris 12",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Register online at ameli.fr first — no appointment needed",
       "Carte Vitale takes 3–6 weeks to arrive by post",
@@ -93,6 +101,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.doctolib.fr/",
     bookingLabel: "Book on Doctolib",
     defaultLocation: "Varies by doctor",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Use Doctolib to find English-speaking doctors in Paris",
       "Ask to be registered as their médecin traitant on first visit",
@@ -111,6 +121,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://mabanque.bnpparibas.fr/",
     bookingLabel: "Book via BNP / SG / Boursorama",
     defaultLocation: "Your chosen branch",
+    timeline: "week_1",
+    status: "not_started",
     tips: [
       "Book online via your bank's app or website",
       "Bring passport, visa, proof of address, certificat de scolarité",
@@ -129,6 +141,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://cvec.etudiant.gouv.fr/",
     bookingLabel: "Pay CVEC on etudiant.gouv.fr",
     defaultLocation: "Your university registrar office",
+    timeline: "before_arrival",
+    status: "not_started",
     tips: [
       "Pay CVEC (€103) at cvec.etudiant.gouv.fr before registration",
       "Check your university ENT portal for exact dates and requirements",
@@ -147,6 +161,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://administration-etrangers-en-france.interieur.gouv.fr/",
     bookingLabel: "Validate VLS-TS online",
     defaultLocation: "OFII Paris, 48 Rue de la Roquette, Paris 11",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Validate your VLS-TS online within 3 months of arrival — mandatory",
       "Non-EU students must do this before their visa expires",
@@ -166,6 +182,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.navigo.fr/",
     bookingLabel: "Get Navigo pass",
     defaultLocation: "RATP Sales Point, Paris",
+    timeline: "week_1",
+    status: "not_started",
     tips: [
       "Discounted Navigo Découverte pass available for students",
       "Valid for 1 month from subscription start date",
@@ -184,6 +202,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.velib-metropole.com/",
     bookingLabel: "Join Vélib'",
     defaultLocation: "Paris, France",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Affordable bike rentals with 1000+ stations across Paris",
       "Great for short trips — first 30 minutes free with subscription",
@@ -204,6 +224,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.logement-social.gouv.fr/",
     bookingLabel: "Apply for HLM",
     defaultLocation: "Regional housing authority, Paris",
+    timeline: "week_1",
+    status: "not_started",
     tips: [
       "Apply early — waiting lists can be several years long",
       "Income requirements vary by building and location",
@@ -222,6 +244,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.caf.fr/allocataires/logement",
     bookingLabel: "Manage APL on CAF",
     defaultLocation: "CAF office, Paris",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Can stack with CAF housing aid for more support",
       "Recalculated quarterly based on your income",
@@ -242,6 +266,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.securite-sociale.fr/",
     bookingLabel: "Compare health insurance",
     defaultLocation: "Online enrollment",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Covers dental, optometry, and other costs CPAM doesn't",
       "Many employers provide free mutuelle plans for employees",
@@ -260,6 +286,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.jeunes.gouv.fr/",
     bookingLabel: "Explore student benefits",
     defaultLocation: "Bank of your choice",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Banks offer student accounts with special perks and lower fees",
       "Check for free insurance deals bundled with accounts",
@@ -280,6 +308,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.bouyguestelecom.fr/",
     bookingLabel: "Get a mobile plan",
     defaultLocation: "Carrier store, Paris",
+    timeline: "week_1",
+    status: "not_started",
     tips: [
       "Student plans available from Bouygues, Orange, and SFR",
       "Bring ID and proof of residence to sign up",
@@ -298,29 +328,13 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.orange.fr/",
     bookingLabel: "Order internet",
     defaultLocation: "Your apartment, Paris",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Fiber availability varies by neighborhood — check before committing",
       "Installation typically takes 2–3 weeks after order",
       "Ask your landlord about building infrastructure before applying",
       "Orange and Bouygues are most popular — compare pricing",
-    ],
-  },
-  {
-    id: "utilities",
-    label: "Electricity & Gas",
-    emoji: "⚡",
-    color: "bg-yellow-50",
-    textColor: "text-yellow-700",
-    borderColor: "border-yellow-200",
-    description: "Utility accounts for EDF, Engie, and other providers",
-    bookingUrl: "https://particulier.edf.fr/",
-    bookingLabel: "Set up utilities",
-    defaultLocation: "Your apartment, Paris",
-    tips: [
-      "Bring ID and proof of residence to set up accounts",
-      "You can choose your energy provider — not limited to EDF",
-      "Compare fixed vs variable rates before committing",
-      "Setup typically takes 2–4 weeks for activation",
     ],
   },
   {
@@ -334,6 +348,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.paris.fr/services",
     bookingLabel: "Learn about Paris recycling",
     defaultLocation: "Your neighborhood, Paris",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Separate recyclables from regular trash — Paris has strict rules",
       "Learn your neighborhood's collection schedule on paris.fr",
@@ -354,6 +370,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://erasmusplus.ec.europa.eu/",
     bookingLabel: "Explore Erasmus+",
     defaultLocation: "Your university",
+    timeline: "before_arrival",
+    status: "not_started",
     tips: [
       "Apply through your university's international office",
       "Funding covers tuition, living costs, and travel",
@@ -372,6 +390,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.campusfrance.org/",
     bookingLabel: "Access Campus France",
     defaultLocation: "Online services",
+    timeline: "before_arrival",
+    status: "not_started",
     tips: [
       "Provides visa assistance for international students",
       "Housing help and accommodation search services",
@@ -379,44 +399,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
       "Contact early in your student journey for best support",
     ],
   },
-  {
-    id: "student_loan",
-    label: "Student Loan Applications",
-    emoji: "💸",
-    color: "bg-orange-100",
-    textColor: "text-orange-800",
-    borderColor: "border-orange-300",
-    description: "Education financing and student loans",
-    bookingUrl: "https://www.education.gouv.fr/",
-    bookingLabel: "Apply for student loans",
-    defaultLocation: "Online or local bank",
-    tips: [
-      "Government loans available for eligible students",
-      "Check your university and nationality for eligibility",
-      "Interest-free for 6 months after graduation",
-      "Competitive rates for education expenses",
-    ],
-  },
 
   // Health & Work Services
-  {
-    id: "vaccination",
-    label: "Vaccination Records Portal",
-    emoji: "💉",
-    color: "bg-red-50",
-    textColor: "text-red-700",
-    borderColor: "border-red-200",
-    description: "Digital proof of vaccination access",
-    bookingUrl: "https://www.francais-covid.fr/",
-    bookingLabel: "Download vaccination proof",
-    defaultLocation: "Online services",
-    tips: [
-      "Download digital vaccination proof from francais-covid.fr",
-      "Store proof locally — some venues still require it",
-      "Required for certain healthcare and travel purposes",
-      "Keep proof valid — expiration dates may apply",
-    ],
-  },
   {
     id: "student_jobs",
     label: "Student Job Portal",
@@ -428,6 +412,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.indeed.fr/jobs?q=student",
     bookingLabel: "Find student jobs",
     defaultLocation: "Online job portal",
+    timeline: "month_1",
+    status: "not_started",
     tips: [
       "Popular student jobs: tutoring, hospitality, retail",
       "Check working hour limits — max 35 hours/week during school",
@@ -448,6 +434,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.paris.fr/pages/l-aide-alimentaire-5436",
     bookingLabel: "Access food assistance",
     defaultLocation: "Various locations in Paris",
+    timeline: "ongoing",
+    status: "not_started",
     tips: [
       "Paris offers free meal programs and food banks for students in need",
       "Universities often provide discounted meal plans — check your campus",
@@ -468,11 +456,79 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "https://www.seloger.com/",
     bookingLabel: "Search student apartments",
     defaultLocation: "Paris and surrounding areas",
+    timeline: "week_1",
+    status: "not_started",
     tips: [
       "Popular platforms: SeLoger, LeBonCoin, PAD — compare listings",
       "Look for furnished apartments ('meublé') — often cheaper for students",
       "Check if APL (housing aid) applies to your rental — reduces costs",
       "Ask landlord about utilities included — water, internet, heating costs matter",
+    ],
+  },
+
+  // Linkee Paris - Free Food assistance
+  {
+    id: "linkee_paris",
+    label: "Linkee Paris",
+    emoji: "🍲",
+    color: "bg-orange-100",
+    textColor: "text-orange-800",
+    borderColor: "border-orange-300",
+    description: "Free meal distribution for students in need",
+    bookingUrl: "https://www.linkee.org/",
+    bookingLabel: "Join Linkee Paris",
+    defaultLocation: "Paris",
+    timeline: "ongoing",
+    status: "not_started",
+    tips: [
+      "Free meal distribution for students in need",
+      "Download the Linkee mobile app to find nearby meal distribution points",
+      "Community-based support run by volunteers",
+      "No eligibility requirements — open to all students",
+    ],
+  },
+
+  // Ameli Social Security
+  {
+    id: "ameli",
+    label: "Social Security / Ameli",
+    emoji: "🏥",
+    color: "bg-emerald-50",
+    textColor: "text-emerald-700",
+    borderColor: "border-emerald-200",
+    description: "Register for French health insurance coverage",
+    bookingUrl: "https://www.ameli.fr/",
+    bookingLabel: "Register on Ameli",
+    defaultLocation: "Online services",
+    timeline: "ongoing",
+    status: "not_started",
+    tips: [
+      "Register for French health insurance (Sécurité Sociale)",
+      "Create your Ameli account early after arrival",
+      "Download your digital health insurance card",
+      "Needed for any doctor visits or prescriptions in France",
+    ],
+  },
+
+  // CROUS - Student Centre
+  {
+    id: "crous",
+    label: "CROUS",
+    emoji: "🎓",
+    color: "bg-violet-50",
+    textColor: "text-violet-700",
+    borderColor: "border-violet-200",
+    description: "Student Centre for housing, meals, and financial assistance",
+    bookingUrl: "https://www.crous.org/",
+    bookingLabel: "Visit CROUS",
+    defaultLocation: "Your university",
+    timeline: "ongoing",
+    status: "not_started",
+    tips: [
+      "Apply for student housing in cités U (university dormitories)",
+      "Check meal plan options in university cafeterias",
+      "Financial assistance programs available for students",
+      "Services vary by university — check your local CROUS site",
     ],
   },
 
@@ -487,6 +543,8 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     bookingUrl: "",
     bookingLabel: "",
     defaultLocation: "",
+    timeline: "ongoing",
+    status: "not_started",
     tips: [],
   },
 ];
