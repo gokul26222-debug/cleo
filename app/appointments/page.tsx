@@ -424,61 +424,29 @@ export default function AppointmentsPage() {
           </motion.div>
         )}
 
-        {/* Govt portal quick links organized by timeline */}
+        {/* Govt portal quick links */}
         {tab === "upcoming" && upcoming.length === 0 && (
-          <div className="space-y-6">
-            {/* Timeline section headers and portals */}
-            {[
-              { phase: "before_arrival", label: "📋 Before Arrival", desc: "Critical visa/enrollment preparation" },
-              { phase: "week_1", label: "🏠 Week 1", desc: "First arrival essentials" },
-              { phase: "month_1", label: "📅 Month 1", desc: "Establish stability" },
-              { phase: "ongoing", label: "🍽️ Ongoing Support", desc: "Essential throughout studies" },
-            ].map(({ phase, label, desc }) => {
-              const phaseServices = APPOINTMENT_TYPES.filter(
-                (t) => t.bookingUrl && t.id !== "other" && t.timeline === phase
-              );
-              if (phaseServices.length === 0) return null;
-
-              return (
-                <div key={phase}>
-                  <div className="mb-3">
-                    <p className="text-sm font-black text-slate-900">{label}</p>
-                    <p className="text-xs text-slate-400">{desc}</p>
+          <div>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+              Book via official portals
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {APPOINTMENT_TYPES.filter((t) => t.bookingUrl && t.id !== "other").map((t) => (
+                <a
+                  key={t.id}
+                  href={t.bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${t.color} border ${t.borderColor} rounded-2xl p-3 flex items-center gap-2 hover:opacity-80 transition`}
+                >
+                  <span className="text-xl">{t.emoji}</span>
+                  <div className="min-w-0">
+                    <p className={`text-xs font-bold ${t.textColor} leading-tight truncate`}>{t.label.split("(")[0].trim()}</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Book online ↗</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {phaseServices.map((t) => (
-                      <a
-                        key={t.id}
-                        href={t.bookingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`${t.color} border ${t.borderColor} rounded-2xl p-3 flex items-center gap-2 hover:opacity-80 transition relative group`}
-                      >
-                        {/* Status Badge */}
-                        {t.status && (
-                          <div className="absolute top-2 right-2">
-                            <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
-                              t.status === "not_started" ? "bg-slate-200 text-slate-600" :
-                              t.status === "in_progress" ? "bg-yellow-200 text-yellow-700" :
-                              "bg-green-200 text-green-700"
-                            }`}>
-                              {t.status === "not_started" ? "Not Started" :
-                               t.status === "in_progress" ? "In Progress" :
-                               "Completed"}
-                            </span>
-                          </div>
-                        )}
-                        <span className="text-xl">{t.emoji}</span>
-                        <div className="min-w-0 flex-1">
-                          <p className={`text-xs font-bold ${t.textColor} leading-tight truncate`}>{t.label.split("(")[0].trim()}</p>
-                          <p className="text-[10px] text-slate-400 mt-0.5">Book online ↗</p>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+                </a>
+              ))}
+            </div>
           </div>
         )}
 
