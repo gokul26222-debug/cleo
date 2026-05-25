@@ -436,6 +436,46 @@ export const APPOINTMENT_TYPES: AppointmentType[] = [
     ],
   },
 
+  // Community & Food Support
+  {
+    id: "free_food",
+    label: "Free Food Programs for Students",
+    emoji: "🍲",
+    color: "bg-red-100",
+    textColor: "text-red-800",
+    borderColor: "border-red-300",
+    description: "Food assistance and free meal programs",
+    bookingUrl: "https://www.paris.fr/pages/l-aide-alimentaire-5436",
+    bookingLabel: "Access food assistance",
+    defaultLocation: "Various locations in Paris",
+    tips: [
+      "Paris offers free meal programs and food banks for students in need",
+      "Universities often provide discounted meal plans — check your campus",
+      "Food donations and community kitchens available in many neighborhoods",
+      "Social services can help qualify for additional food assistance",
+    ],
+  },
+
+  // Student Housing
+  {
+    id: "student_apartments",
+    label: "Student-Friendly Apartment Finder",
+    emoji: "🏘️",
+    color: "bg-amber-100",
+    textColor: "text-amber-800",
+    borderColor: "border-amber-300",
+    description: "Student housing platforms and apartment search",
+    bookingUrl: "https://www.seloger.com/",
+    bookingLabel: "Search student apartments",
+    defaultLocation: "Paris and surrounding areas",
+    tips: [
+      "Popular platforms: SeLoger, LeBonCoin, PAD — compare listings",
+      "Look for furnished apartments ('meublé') — often cheaper for students",
+      "Check if APL (housing aid) applies to your rental — reduces costs",
+      "Ask landlord about utilities included — water, internet, heating costs matter",
+    ],
+  },
+
   {
     id: "other",
     label: "Other Appointment",
