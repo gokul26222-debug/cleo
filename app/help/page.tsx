@@ -77,7 +77,7 @@ export default function HelpPage() {
             <motion.button
               key={tab}
               onClick={() => {
-                setActiveTab(tab as "overview" | "faq" | "fixes" | "emergency" | "status");
+                setActiveTab(tab as any);
                 setSearchTerm("");
               }}
               className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${
