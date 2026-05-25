@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { CONTEXTUAL_HELP, FAQ_ITEMS, QUICK_FIXES } from "@/lib/helpData";

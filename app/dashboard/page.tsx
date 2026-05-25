@@ -6,7 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import BottomNav from "@/components/BottomNav";
 import { storage, UserProfile, ChecklistProgress } from "@/lib/storage";
-import { checklistData, ChecklistDay } from "@/lib/data";
+import { checklistData } from "@/lib/data";
 import { Appointment, getTypeById, getDaysUntil } from "@/lib/appointments";
 
 const MOTIVATIONAL = [
