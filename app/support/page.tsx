@@ -324,15 +324,6 @@ export default function SupportPage() {
             >
               Email Us
             </a>
-            <span className="text-slate-300">|</span>
-            <a
-              href="https://github.com/gokul26222-debug/cleo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-bold text-indigo-500 hover:text-indigo-700 transition"
-            >
-              GitHub
-            </a>
           </div>
         </motion.div>
       </div>
