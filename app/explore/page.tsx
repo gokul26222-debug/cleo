@@ -270,7 +270,7 @@ export default function ExplorePage() {
     setSaved((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id); else next.add(id);
-      try { localStorage.setItem("cleo_saved_places", JSON.stringify([...next])); } catch { /* ignore */ }
+      try { localStorage.setItem("cleo_saved_places", JSON.stringify(Array.from(next))); } catch { /* ignore */ }
       return next;
     });
     setShowSaveToast(true);
