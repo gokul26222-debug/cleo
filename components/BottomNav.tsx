@@ -7,9 +7,9 @@ import { motion } from "framer-motion";
 const navItems = [
   { href: "/dashboard",     label: "Home",     emoji: "🏠" },
   { href: "/checklist",     label: "Checklist", emoji: "✅" },
-  { href: "/chat",          label: "Ask Cléo", emoji: "💬" },
-  { href: "/appointments",  label: "Calendar",  emoji: "📅" },
-  { href: "/documents",     label: "Docs",      emoji: "📂" },
+  { href: "/chat",          label: "Ask Cleo",  emoji: "💬" },
+  { href: "/appointments",  label: "Services",  emoji: "📅" },
+  { href: "/support",       label: "Support",   emoji: "🛟" },
 ];
 
 export default function BottomNav() {

@@ -88,7 +88,7 @@ export default function DashboardPage() {
       desc: `Day ${currentDay} of 7`,
     },
     {
-      label: "Ask Cléo AI",
+      label: "Ask Cleo AI",
       emoji: "💬",
       href: "/chat",
       bg: "bg-violet-500",
@@ -117,9 +117,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-3">
             <span className="text-2xl font-extrabold text-white/90 tracking-tight">Cléo</span>
             <span className="text-xs bg-white/20 px-3 py-1 rounded-full font-medium backdrop-blur-sm">
-              {user.university.length > 22
-                ? user.university.slice(0, 22) + "…"
-                : user.university}
+              🇫🇷 Paris Guide
             </span>
           </div>
           <motion.div
