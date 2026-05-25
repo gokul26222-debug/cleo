@@ -96,12 +96,12 @@ export default function DashboardPage() {
       desc: "AI assistant",
     },
     {
-      label: "My Documents",
-      emoji: "📂",
-      href: "/documents",
-      bg: "bg-amber-500",
-      shadow: "shadow-amber-200",
-      desc: "Store files",
+      label: "Explore Paris",
+      emoji: "🗺️",
+      href: "/explore",
+      bg: "bg-orange-500",
+      shadow: "shadow-orange-200",
+      desc: "Free spots",
     },
   ];
 

@@ -8,7 +8,7 @@ const navItems = [
   { href: "/dashboard",     label: "Home",     emoji: "🏠" },
   { href: "/checklist",     label: "Checklist", emoji: "✅" },
   { href: "/chat",          label: "Ask Cleo",  emoji: "💬" },
-  { href: "/appointments",  label: "Services",  emoji: "📅" },
+  { href: "/explore",       label: "Explore",   emoji: "🗺️" },
   { href: "/support",       label: "Support",   emoji: "🛟" },
 ];
 
