@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { storage } from "@/lib/storage";
@@ -51,16 +51,17 @@ const STEPS = [
   },
 ];
 
-/* ── Praise overlay shown briefly after each step ────── */
-function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
-  const hasFired = useRef(false);
+/* ── Praise overlay shown briefly after each step ──────
+   A plain timer drives dismissal: it fires exactly once and is
+   cancelled on unmount, so animation callbacks can't double-fire. */
+const PRAISE_DURATION_MS = 800;
 
-  const handleAnimComplete = () => {
-    // Only fire once — prevent double-trigger from exit animation
-    if (hasFired.current) return;
-    hasFired.current = true;
-    setTimeout(onDone, 700);
-  };
+function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, PRAISE_DURATION_MS);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -74,7 +75,6 @@ function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        onAnimationComplete={handleAnimComplete}
         className="bg-white rounded-3xl px-10 py-8 shadow-2xl text-center"
       >
         <p className="text-3xl font-black text-slate-900">{text}</p>
@@ -93,6 +93,12 @@ export default function OnboardingPage() {
   /* field values */
   const [arrivalDate, setArrivalDate] = useState("");
   const [name, setName] = useState("");
+
+  /* Returning users shouldn't re-onboard — it would overwrite their
+     arrival date and reset progress tracking. Send them home. */
+  useEffect(() => {
+    if (storage.isOnboarded()) router.replace("/dashboard");
+  }, [router]);
 
   const localToday = useMemo(() => {
     const d = new Date();
@@ -123,15 +129,10 @@ export default function OnboardingPage() {
     }
   };
 
-  const praiseDoneRef = useRef(false);
   const handlePraiseDone = () => {
-    if (praiseDoneRef.current) return; // prevent double-fire
-    praiseDoneRef.current = true;
     setShowPraise(false);
     setDirection(1);
     setStep((s) => (s + 1) as Step);
-    // Reset after a short delay so next praise can work
-    setTimeout(() => { praiseDoneRef.current = false; }, 500);
   };
 
   const goBack = () => {
@@ -149,7 +150,13 @@ export default function OnboardingPage() {
         university: "Paris University",
       });
       storage.setOnboarded();
-    } catch { /* ignore */ }
+    } catch {
+      // localStorage unavailable (private browsing / blocked) — the
+      // dashboard would just bounce back here, so surface it instead.
+      setFinishing(false);
+      alert("Couldn't save your profile — please check that your browser allows site data, then try again.");
+      return;
+    }
     await new Promise((r) => setTimeout(r, 1200));
     router.push("/dashboard");
   };
