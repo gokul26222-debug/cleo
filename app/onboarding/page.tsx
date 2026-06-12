@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { storage } from "@/lib/storage";
@@ -12,9 +12,6 @@ const TOTAL = 3;
 const STEPS = [
   {
     bg: "from-sky-400 to-blue-600",
-    cardBg: "bg-sky-50",
-    accent: "text-sky-600",
-    ring: "ring-sky-400",
     btn: "bg-sky-500 hover:bg-sky-400",
     btnShadow: "#0284c7",
     illustration: "🗼",
@@ -25,9 +22,6 @@ const STEPS = [
   },
   {
     bg: "from-rose-400 to-pink-600",
-    cardBg: "bg-rose-50",
-    accent: "text-rose-600",
-    ring: "ring-rose-400",
     btn: "bg-rose-500 hover:bg-rose-400",
     btnShadow: "#be185d",
     illustration: "📅",
@@ -38,9 +32,6 @@ const STEPS = [
   },
   {
     bg: "from-emerald-400 to-teal-600",
-    cardBg: "bg-emerald-50",
-    accent: "text-emerald-600",
-    ring: "ring-emerald-400",
     btn: "bg-emerald-500 hover:bg-emerald-400",
     btnShadow: "#065f46",
     illustration: "✨",
@@ -51,16 +42,17 @@ const STEPS = [
   },
 ];
 
-/* ── Praise overlay shown briefly after each step ────── */
-function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
-  const hasFired = useRef(false);
+/* ── Praise overlay ─────────────────────────────────────
+   Driven by a plain timer — fires exactly once, cancels on
+   unmount. No animation callbacks, no ref guards needed.    */
+const PRAISE_MS = 800;
 
-  const handleAnimComplete = () => {
-    // Only fire once — prevent double-trigger from exit animation
-    if (hasFired.current) return;
-    hasFired.current = true;
-    setTimeout(onDone, 700);
-  };
+function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, PRAISE_MS);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -74,7 +66,6 @@ function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        onAnimationComplete={handleAnimComplete}
         className="bg-white rounded-3xl px-10 py-8 shadow-2xl text-center"
       >
         <p className="text-3xl font-black text-slate-900">{text}</p>
@@ -83,32 +74,39 @@ function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
   );
 }
 
+/* ── date helpers ────────────────────────────────────── */
+function toDateString(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 export default function OnboardingPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<Step>(0);
   const [direction, setDirection] = useState(1);
   const [showPraise, setShowPraise] = useState(false);
   const [finishing, setFinishing] = useState(false);
-
-  /* field values */
   const [arrivalDate, setArrivalDate] = useState("");
   const [name, setName] = useState("");
 
-  const localToday = useMemo(() => {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  }, []);
+  /* Prevent flash: render nothing until we know if user is new or returning */
+  useEffect(() => {
+    if (storage.isOnboarded()) {
+      router.replace("/dashboard");
+    } else {
+      setMounted(true);
+    }
+  }, [router]);
+
+  const today = useMemo(() => toDateString(new Date()), []);
 
   const s = STEPS[step] ?? STEPS[0];
 
-  const canProceed = () => {
-    if (step === 1) return arrivalDate !== "";
-    if (step === 2) return name.trim() !== "";
-    return true;
-  };
+  /* Derived — not a function, so it's evaluated once per render */
+  const canProceed =
+    step === 1 ? arrivalDate !== "" :
+    step === 2 ? name.trim() !== "" :
+    true;
 
   const advance = () => {
     if (step < TOTAL - 1) {
@@ -123,33 +121,39 @@ export default function OnboardingPage() {
     }
   };
 
-  const praiseDoneRef = useRef(false);
   const handlePraiseDone = () => {
-    if (praiseDoneRef.current) return; // prevent double-fire
-    praiseDoneRef.current = true;
     setShowPraise(false);
     setDirection(1);
     setStep((s) => (s + 1) as Step);
-    // Reset after a short delay so next praise can work
-    setTimeout(() => { praiseDoneRef.current = false; }, 500);
   };
 
   const goBack = () => {
+    setShowPraise(false); // safety: clear any stuck overlay
     setDirection(-1);
     setStep((s) => Math.max(s - 1, 0) as Step);
   };
 
   const handleFinish = async () => {
     setFinishing(true);
-    try {
+
+    /* Both writes must succeed — if either fails (storage full / blocked)
+       we surface the error instead of silently redirecting to a broken dashboard. */
+    const saved =
       storage.setUser({
         name: name.trim(),
         nationality: "International Student",
         arrivalDate,
         university: "Paris University",
-      });
-      storage.setOnboarded();
-    } catch { /* ignore */ }
+      }) && storage.setOnboarded();
+
+    if (!saved) {
+      setFinishing(false);
+      alert(
+        "Couldn't save your profile — please check that your browser allows site data, then try again."
+      );
+      return;
+    }
+
     await new Promise((r) => setTimeout(r, 1200));
     router.push("/dashboard");
   };
@@ -157,7 +161,7 @@ export default function OnboardingPage() {
   const variants = {
     enter: (d: number) => ({ x: d > 0 ? "100%" : "-100%", opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
+    exit:  (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
   };
 
   /* ── FINISH SCREEN ─────────────────────────────────── */
@@ -211,6 +215,9 @@ export default function OnboardingPage() {
     );
   }
 
+  /* Render nothing while we check localStorage — prevents flash for returning users */
+  if (!mounted) return null;
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden bg-white">
       {/* Praise overlay */}
@@ -225,7 +232,7 @@ export default function OnboardingPage() {
         transition={{ duration: 0.5 }}
         className={`bg-gradient-to-br ${s.bg} px-6 pt-12 pb-8 transition-colors duration-500`}
       >
-        {/* Back + progress dots */}
+        {/* Back + progress bar */}
         <div className="flex items-center gap-4 mb-6">
           {step > 0 && (
             <motion.button
@@ -242,7 +249,10 @@ export default function OnboardingPage() {
                 key={i}
                 animate={{
                   flex: i === step ? 3 : 1,
-                  backgroundColor: i < step ? "rgba(255,255,255,0.9)" : i === step ? "#ffffff" : "rgba(255,255,255,0.3)",
+                  backgroundColor:
+                    i < step  ? "rgba(255,255,255,0.9)" :
+                    i === step ? "#ffffff" :
+                                 "rgba(255,255,255,0.3)",
                 }}
                 transition={{ duration: 0.35 }}
                 className="h-2 rounded-full"
@@ -299,10 +309,10 @@ export default function OnboardingPage() {
               {step === 0 && (
                 <div className="space-y-3">
                   {[
-                    { emoji: "🗓️", title: "7-Day Action Plan", desc: "Bank, SIM, CAF, CPAM, Navigo — step by step." },
-                    { emoji: "💬", title: "AI Assistant", desc: "Ask anything in English. Cleo answers instantly." },
-                    { emoji: "📂", title: "Document Vault", desc: "All your paperwork in one safe place." },
-                    { emoji: "📅", title: "Appointment Tracker", desc: "Book & manage all your service appointments." },
+                    { emoji: "🗓️", title: "7-Day Action Plan",    desc: "Bank, SIM, CAF, CPAM, Navigo — step by step." },
+                    { emoji: "💬", title: "AI Assistant",          desc: "Ask anything in English. Cleo answers instantly." },
+                    { emoji: "📂", title: "Document Vault",        desc: "All your paperwork in one safe place." },
+                    { emoji: "📅", title: "Appointment Tracker",   desc: "Book & manage all your service appointments." },
                   ].map((item, i) => (
                     <motion.div
                       key={item.title}
@@ -344,10 +354,11 @@ export default function OnboardingPage() {
                       type="date"
                       value={arrivalDate}
                       onChange={(e) => setArrivalDate(e.target.value)}
-                      max={localToday}
+                      max={today}
                       className="w-full bg-transparent text-slate-800 text-lg font-bold outline-none px-3 py-3 text-center"
                     />
                   </div>
+
                   <AnimatePresence>
                     {arrivalDate && (
                       <motion.div
@@ -367,37 +378,6 @@ export default function OnboardingPage() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-
-                  {!arrivalDate && (
-                    <div className="grid grid-cols-3 gap-2 mt-3">
-                      {[
-                        { label: "Today", value: localToday },
-                        {
-                          label: "Yesterday",
-                          value: (() => {
-                            const d = new Date(Date.now() - 86400000);
-                            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-                          })(),
-                        },
-                        {
-                          label: "Last week",
-                          value: (() => {
-                            const d = new Date(Date.now() - 7 * 86400000);
-                            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-                          })(),
-                        },
-                      ].map((q) => (
-                        <motion.button
-                          key={q.label}
-                          whileTap={{ scale: 0.94 }}
-                          onClick={() => setArrivalDate(q.value)}
-                          className="py-2.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-600 text-xs font-bold hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 transition"
-                        >
-                          {q.label}
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -410,7 +390,7 @@ export default function OnboardingPage() {
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your first name"
                     autoFocus
-                    onKeyDown={(e) => e.key === "Enter" && canProceed() && advance()}
+                    onKeyDown={(e) => e.key === "Enter" && canProceed && advance()}
                     className="w-full border-2 border-slate-200 focus:border-emerald-400 rounded-2xl px-4 py-4 text-slate-800 font-bold text-xl outline-none transition placeholder:text-slate-300 placeholder:font-normal text-center mb-4"
                   />
                   <AnimatePresence>
@@ -449,8 +429,8 @@ export default function OnboardingPage() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97, y: 3, boxShadow: `0 2px 0 ${s.btnShadow}` }}
             onClick={advance}
-            disabled={!canProceed()}
-            style={{ boxShadow: canProceed() ? `0 5px 0 ${s.btnShadow}` : "none" }}
+            disabled={!canProceed}
+            style={{ boxShadow: canProceed ? `0 5px 0 ${s.btnShadow}` : "none" }}
             className={`w-full ${s.btn} text-white font-black text-lg py-4 rounded-2xl transition-all disabled:opacity-35 disabled:cursor-not-allowed disabled:shadow-none`}
           >
             {step === 0

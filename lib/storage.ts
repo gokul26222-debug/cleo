@@ -56,27 +56,23 @@ function safeGet<T>(key: string): T | null {
   }
 }
 
-function safeSet(key: string, value: unknown): void {
-  if (typeof window === "undefined") return;
+function safeSet(key: string, value: unknown): boolean {
+  if (typeof window === "undefined") return false;
   try {
     localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch {
     // storage full or unavailable
+    return false;
   }
 }
 
 export const storage = {
   // User profile
   getUser: () => safeGet<UserProfile>(KEYS.USER),
-  setUser: (user: UserProfile) => safeSet(KEYS.USER, user),
-  isOnboarded: () => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem(KEYS.ONBOARDED) === "true";
-  },
-  setOnboarded: () => {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(KEYS.ONBOARDED, "true");
-  },
+  setUser: (user: UserProfile): boolean => safeSet(KEYS.USER, user),
+  isOnboarded: (): boolean => safeGet<string>(KEYS.ONBOARDED) === "true",
+  setOnboarded: (): boolean => safeSet(KEYS.ONBOARDED, "true"),
 
   // Checklist progress
   getProgress: (): ChecklistProgress =>
