@@ -98,15 +98,7 @@ export default function OnboardingPage() {
     }
   }, [router]);
 
-  /* Pre-compute the quick-date values once — not on every render */
-  const { today, yesterday, lastWeek } = useMemo(() => {
-    const now = Date.now();
-    return {
-      today:    toDateString(new Date(now)),
-      yesterday: toDateString(new Date(now - 86_400_000)),
-      lastWeek:  toDateString(new Date(now - 7 * 86_400_000)),
-    };
-  }, []);
+  const today = useMemo(() => toDateString(new Date()), []);
 
   const s = STEPS[step] ?? STEPS[0];
 
@@ -365,28 +357,6 @@ export default function OnboardingPage() {
                       max={today}
                       className="w-full bg-transparent text-slate-800 text-lg font-bold outline-none px-3 py-3 text-center"
                     />
-                  </div>
-
-                  {/* Quick-date chips: always visible so user can change selection */}
-                  <div className="grid grid-cols-3 gap-2 mb-4">
-                    {([
-                      { label: "Today",     value: today },
-                      { label: "Yesterday", value: yesterday },
-                      { label: "Last week", value: lastWeek },
-                    ] as const).map((q) => (
-                      <motion.button
-                        key={q.label}
-                        whileTap={{ scale: 0.94 }}
-                        onClick={() => setArrivalDate(q.value)}
-                        className={`py-2.5 rounded-xl border text-xs font-bold transition ${
-                          arrivalDate === q.value
-                            ? "border-rose-400 bg-rose-50 text-rose-600"
-                            : "bg-slate-50 border-slate-100 text-slate-600 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600"
-                        }`}
-                      >
-                        {q.label}
-                      </motion.button>
-                    ))}
                   </div>
 
                   <AnimatePresence>
