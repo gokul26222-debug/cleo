@@ -24,7 +24,7 @@ export default function AppsPage() {
     );
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
       {/* ── HERO HEADER ── */}
       <div className="relative bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-600 px-6 pt-14 pb-10 text-white overflow-hidden">
         <div className="absolute -right-16 -top-16 w-48 h-48 bg-white/10 rounded-full" />
@@ -111,7 +111,7 @@ export default function AppsPage() {
               onClick={() => setActiveCategory(cat.id)}
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition ${
                 activeCategory === cat.id
-                  ? "bg-indigo-500 text-white shadow-md shadow-indigo-200"
+                  ? "bg-[#58cc02] text-white shadow-md shadow-green-200"
                   : "bg-white text-slate-500 border border-slate-100"
               }`}
             >

@@ -285,7 +285,7 @@ export default function ExplorePage() {
   const totalSavings = "500+";
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
       {/* ── HERO HEADER ── */}
       <div className="relative bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600 px-6 pt-14 pb-10 text-white overflow-hidden">
         {/* Floating emojis */}

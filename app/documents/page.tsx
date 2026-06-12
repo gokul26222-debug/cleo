@@ -122,7 +122,7 @@ export default function DocumentsPage() {
   const totalSize = documents.reduce((s, d) => s + d.size, 0);
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
       {/* Toast */}
       <AnimatePresence>
         {toast && (
@@ -197,7 +197,7 @@ export default function DocumentsPage() {
             </p>
             <button
               onClick={() => setShowUpload(true)}
-              className="text-sm text-sky-500 font-bold hover:text-sky-700 transition"
+              className="text-sm text-[#58cc02] font-bold hover:text-sky-700 transition"
             >
               Upload your first document →
             </button>
@@ -262,7 +262,7 @@ export default function DocumentsPage() {
         )}
 
         {/* Tip */}
-        <div className="bg-sky-50 border border-sky-100 rounded-2xl p-4 flex gap-3">
+        <div className="bg-green-50 border border-green-100 rounded-2xl p-4 flex gap-3">
           <span className="text-xl flex-shrink-0">💡</span>
           <p className="text-sky-700 text-xs leading-relaxed">
             <span className="font-bold">Store these first:</span> Passport, visa, RIB (bank slip), certificat de scolarité, and your lease — you&apos;ll need them for CAF, CPAM, and your bank.
@@ -339,7 +339,7 @@ export default function DocumentsPage() {
                 whileTap={{ scale: 0.97 }}
                 onClick={() => fileRef.current?.click()}
                 disabled={uploading}
-                className="w-full border-2 border-dashed border-slate-200 rounded-2xl py-8 text-center hover:border-sky-400 hover:bg-sky-50 transition-all disabled:opacity-60 group"
+                className="w-full border-2 border-dashed border-slate-200 rounded-2xl py-8 text-center hover:border-green-400 hover:bg-green-50 transition-all disabled:opacity-60 group"
               >
                 <motion.div
                   animate={{ y: uploading ? [0, -4, 0] : 0 }}
@@ -348,7 +348,7 @@ export default function DocumentsPage() {
                 >
                   {uploading ? "⏳" : "📎"}
                 </motion.div>
-                <p className="text-sm font-bold text-slate-600 group-hover:text-sky-600 transition">
+                <p className="text-sm font-bold text-slate-600 group-hover:text-[#58cc02] transition">
                   {uploading ? "Uploading…" : "Choose file"}
                 </p>
                 <p className="text-xs text-slate-400 mt-1">or drag and drop</p>
@@ -397,7 +397,7 @@ export default function DocumentsPage() {
                     <a
                       href={preview.data}
                       download={preview.name}
-                      className="inline-block bg-sky-500 text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-sky-600 transition"
+                      className="inline-block bg-[#58cc02] text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-sky-600 transition"
                     >
                       Download →
                     </a>

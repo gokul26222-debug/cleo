@@ -155,7 +155,7 @@ function BookModal({
                   value={date}
                   min={new Date().toISOString().split("T")[0]}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full border-2 border-slate-200 focus:border-sky-400 rounded-xl px-4 py-3 text-slate-800 font-semibold outline-none transition"
+                  className="w-full border-2 border-slate-200 focus:border-green-400 rounded-xl px-4 py-3 text-slate-800 font-semibold outline-none transition"
                 />
               </div>
 
@@ -168,7 +168,7 @@ function BookModal({
                   type="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full border-2 border-slate-200 focus:border-sky-400 rounded-xl px-4 py-3 text-slate-800 font-semibold outline-none transition"
+                  className="w-full border-2 border-slate-200 focus:border-green-400 rounded-xl px-4 py-3 text-slate-800 font-semibold outline-none transition"
                 />
               </div>
 
@@ -182,7 +182,7 @@ function BookModal({
                   value={location}
                   onChange={(e) => setLoc(e.target.value)}
                   placeholder="Address or office name"
-                  className="w-full border-2 border-slate-200 focus:border-sky-400 rounded-xl px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-300"
+                  className="w-full border-2 border-slate-200 focus:border-green-400 rounded-xl px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-300"
                 />
               </div>
 
@@ -196,7 +196,7 @@ function BookModal({
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Bring passport, RIB, lease..."
                   rows={3}
-                  className="w-full border-2 border-slate-200 focus:border-sky-400 rounded-xl px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-300 resize-none text-sm"
+                  className="w-full border-2 border-slate-200 focus:border-green-400 rounded-xl px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-300 resize-none text-sm"
                 />
               </div>
 
@@ -320,7 +320,7 @@ export default function AppointmentsPage() {
   const nextAppt = upcoming[0];
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
 
       {/* Toast */}
       <AnimatePresence>
@@ -453,7 +453,7 @@ export default function AppointmentsPage() {
         {/* Bug fix #7: single upcoming appointment — list below hero is empty, explain it */}
         {tab === "upcoming" && upcoming.length === 1 && (
           <p className="text-xs text-center text-slate-400 font-medium -mt-1">
-            That&apos;s your only upcoming appointment. <button onClick={() => { setEditAppt(null); setShowModal(true); }} className="text-sky-500 font-bold hover:text-sky-700">+ Add another</button>
+            That&apos;s your only upcoming appointment. <button onClick={() => { setEditAppt(null); setShowModal(true); }} className="text-[#58cc02] font-bold hover:text-sky-700">+ Add another</button>
           </p>
         )}
 
@@ -482,7 +482,7 @@ export default function AppointmentsPage() {
             {tab === "upcoming" && (
               <button
                 onClick={() => setShowModal(true)}
-                className="text-sm text-sky-500 font-bold hover:text-sky-700 transition"
+                className="text-sm text-[#58cc02] font-bold hover:text-sky-700 transition"
               >
                 + Add your first appointment
               </button>
@@ -590,7 +590,7 @@ export default function AppointmentsPage() {
                             <div className="flex gap-2 pt-1">
                               <button
                                 onClick={() => restoreAppt(appt.id)}
-                                className="flex-1 bg-sky-50 text-sky-600 text-xs font-bold py-2 rounded-xl hover:bg-sky-100 transition"
+                                className="flex-1 bg-green-50 text-[#58cc02] text-xs font-bold py-2 rounded-xl hover:bg-sky-100 transition"
                               >
                                 ↩ Restore
                               </button>
