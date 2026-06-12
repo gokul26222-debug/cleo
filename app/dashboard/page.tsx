@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
+import MetroLine from "@/components/MetroLine";
 import { storage, UserProfile } from "@/lib/storage";
 import { checklistData } from "@/lib/data";
 import { Appointment, getTypeById, getDaysUntil } from "@/lib/appointments";
@@ -71,9 +72,14 @@ export default function DashboardPage() {
   if (!user) return null;
 
   const firstName = user.name.split(" ")[0];
-  const progressPct = Math.round((completedDays / 7) * 100);
   const today = checklistData[currentDay - 1];
   const progress = storage.getProgress();
+  const metroStops = checklistData.map((d) => ({
+    day: d.day,
+    emoji: d.emoji,
+    label: d.title,
+    done: (progress[`day${d.day}`]?.length ?? 0) >= d.steps.length,
+  }));
   const dayProgress = progress[`day${currentDay}`]?.length ?? 0;
   const dayTotal = today?.steps.length ?? 0;
   const motivational = MOTIVATIONAL[completedDays % MOTIVATIONAL.length];
@@ -85,7 +91,7 @@ export default function DashboardPage() {
       href: "/checklist",
       bg: "bg-sky-500",
       shadow: "shadow-sky-200",
-      desc: `Day ${currentDay} of 7`,
+      desc: `Stop ${currentDay} of 7`,
     },
     {
       label: "Ask Cleo AI",
@@ -108,7 +114,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-slate-50 pb-28">
       {/* Header with gradient */}
-      <div className="bg-gradient-to-b from-sky-500 to-sky-600 px-6 pt-14 pb-8 text-white">
+      <div className="bg-gradient-to-b from-metro to-metro-dark px-6 pt-14 pb-8 text-white">
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,8 +131,10 @@ export default function DashboardPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <p className="text-sky-100 text-sm font-medium mb-0.5">
-              {completedDays === 7 ? "Setup complete! 🎉" : `Day ${currentDay} of 7`}
+            <p className="text-white/70 text-sm font-medium mb-0.5">
+              {completedDays === 7
+                ? "Terminus reached! 🎉"
+                : `🚇 Next stop: ${today?.title ?? ""}`}
             </p>
             <h1 className="text-3xl font-extrabold tracking-tight">
               Bonjour, {firstName}! 👋
@@ -141,18 +149,14 @@ export default function DashboardPage() {
           transition={{ delay: 0.2 }}
           className="mt-5"
         >
-          <div className="flex items-center justify-between text-xs text-sky-100 mb-2">
-            <span>First-week setup</span>
-            <span className="font-bold">{completedDays}/7 days done</span>
+          <div className="flex items-center justify-between text-xs text-white/70 mb-1">
+            <span>Your métro line to Paris life</span>
+            <span className="font-bold">{completedDays}/7 stops</span>
           </div>
-          <div className="bg-white/25 rounded-full h-2.5 overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPct}%` }}
-              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="h-full bg-white rounded-full"
-            />
-          </div>
+          <MetroLine stops={metroStops} currentDay={currentDay} onDark />
+          <p className="text-white/50 text-[10px] text-center mt-1">
+            The train moves when you do — no schedule, no pressure 💛
+          </p>
         </motion.div>
       </div>
 
@@ -178,7 +182,7 @@ export default function DashboardPage() {
             transition={{ delay: 0.25 }}
           >
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2.5 px-1">
-              Today&apos;s Task
+              Your Next Stop
             </p>
             <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 text-white shadow-xl shadow-slate-200 relative overflow-hidden">
               {/* Decorative circle */}
@@ -194,7 +198,7 @@ export default function DashboardPage() {
                   {today.emoji}
                 </motion.span>
                 <div className="flex-1">
-                  <div className="text-xs text-slate-400 mb-1">Day {currentDay} · {today.estimatedTime}</div>
+                  <div className="text-xs text-slate-400 mb-1">🚇 Stop {currentDay} · {today.estimatedTime}</div>
                   <h3 className="font-extrabold text-lg leading-tight mb-2">{today.title}</h3>
                   <div className="bg-white/10 rounded-full h-1.5 mb-1.5">
                     <motion.div
@@ -214,7 +218,7 @@ export default function DashboardPage() {
                   whileTap={{ scale: 0.97 }}
                   className="mt-4 w-full bg-white text-slate-900 font-bold py-3 rounded-xl hover:bg-slate-100 transition text-sm"
                 >
-                  Start Day {currentDay} →
+                  Ride to Stop {currentDay} 🚇
                 </motion.button>
               </Link>
             </div>
@@ -336,35 +340,16 @@ export default function DashboardPage() {
           className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm"
         >
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
-            Your 7-Day Journey
+            🚇 Line 7 · Your Journey Map
           </p>
-          <div className="flex items-center justify-between gap-1">
-            {checklistData.map((d) => {
-              const key = `day${d.day}`;
-              const done = (progress[key]?.length ?? 0) >= d.steps.length;
-              const isCurrent = d.day === currentDay;
-              return (
-                <Link key={d.day} href={`/checklist?day=${d.day}`}>
-                  <motion.div
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${
-                      isCurrent ? "bg-sky-50 ring-2 ring-sky-300" : ""
-                    }`}
-                  >
-                    <span className="text-lg">
-                      {done ? "✅" : isCurrent ? d.emoji : "⬜"}
-                    </span>
-                    <span className={`text-[10px] font-semibold ${
-                      done ? "text-green-600" : isCurrent ? "text-sky-600" : "text-slate-400"
-                    }`}>
-                      D{d.day}
-                    </span>
-                  </motion.div>
-                </Link>
-              );
-            })}
-          </div>
+          <MetroLine
+            stops={metroStops}
+            currentDay={currentDay}
+            onSelect={(day) => router.push(`/checklist?day=${day}`)}
+          />
+          <p className="text-[10px] text-slate-400 text-center mt-2">
+            Next stop: <span className="font-bold text-metro">{today?.title ?? "Terminus 🏆"}</span>
+          </p>
         </motion.div>
 
         {/* CAF tip */}

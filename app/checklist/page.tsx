@@ -104,9 +104,12 @@ function ChecklistContent() {
 
       {/* Header */}
       <div className="bg-white px-6 pt-12 pb-4 border-b border-slate-100 shadow-sm">
-        <h1 className="text-2xl font-extrabold text-slate-900 mb-4">7-Day Checklist</h1>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="bg-metro text-white text-xs font-black w-7 h-7 rounded-full flex items-center justify-center">7</span>
+          <h1 className="text-2xl font-extrabold text-slate-900">Your Métro Line</h1>
+        </div>
 
-        {/* Day selector */}
+        {/* Stop selector — métro stations */}
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {checklistData.map((d) => {
             const done = isDayComplete(d.day);
@@ -116,19 +119,28 @@ function ChecklistContent() {
                 key={d.day}
                 whileTap={{ scale: 0.94 }}
                 onClick={() => setSelectedDay(d.day)}
-                className={`flex-shrink-0 flex flex-col items-center px-3.5 py-2.5 rounded-2xl border-2 transition-all ${
+                className={`flex-shrink-0 flex flex-col items-center px-3.5 py-2.5 rounded-2xl border-2 transition-all relative ${
                   active
-                    ? "border-sky-500 bg-sky-50 shadow-sm"
+                    ? "border-metro bg-metro-tint shadow-sm"
                     : done
-                    ? "border-green-200 bg-green-50"
+                    ? "border-ticket bg-ticket-tint"
                     : "border-slate-100 bg-white"
                 }`}
               >
+                {active && (
+                  <motion.span
+                    animate={{ y: [0, -2, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.6 }}
+                    className="absolute -top-2 text-xs"
+                  >
+                    🚇
+                  </motion.span>
+                )}
                 <span className="text-lg">{done ? "✅" : d.emoji}</span>
                 <span className={`text-[11px] font-bold mt-0.5 ${
-                  active ? "text-sky-600" : done ? "text-green-600" : "text-slate-400"
+                  active ? "text-metro" : done ? "text-ticket-dark" : "text-slate-400"
                 }`}>
-                  Day {d.day}
+                  Stop {d.day}
                 </span>
               </motion.button>
             );
@@ -159,7 +171,7 @@ function ChecklistContent() {
                 </motion.span>
                 <div className="flex-1">
                   <div className="text-xs text-slate-400 font-medium mb-0.5">
-                    Day {day.day} · ⏱ {day.estimatedTime}
+                    🚇 Stop {day.day} · ⏱ {day.estimatedTime}
                   </div>
                   <h2 className="text-xl font-extrabold text-slate-900 mb-1">{day.title}</h2>
                   <p className="text-slate-500 text-sm leading-relaxed">{day.description}</p>
@@ -344,16 +356,23 @@ function ChecklistContent() {
                   transition={{ type: "spring", stiffness: 200, damping: 15 }}
                   className="mt-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-5 text-white text-center shadow-xl shadow-green-100"
                 >
-                  <div className="text-3xl mb-2">🎉</div>
-                  <p className="font-extrabold text-lg mb-1">Day {selectedDay} complete!</p>
-                  <p className="text-green-100 text-sm mb-3">Amazing work. Ready for day {selectedDay + 1}?</p>
+                  <motion.div
+                    initial={{ x: -40 }}
+                    animate={{ x: 40 }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    className="text-3xl mb-2"
+                  >
+                    🚇
+                  </motion.div>
+                  <p className="font-extrabold text-lg mb-1">Stop {selectedDay} cleared! 🎉</p>
+                  <p className="text-green-100 text-sm mb-3">The train is moving. Next station awaits!</p>
                   <motion.button
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.96 }}
                     onClick={() => setSelectedDay((d) => Math.min(d + 1, 7))}
                     className="bg-white text-green-700 font-bold px-6 py-2.5 rounded-xl hover:bg-green-50 transition text-sm shadow-sm"
                   >
-                    Start Day {selectedDay + 1} →
+                    Ride to Stop {selectedDay + 1} 🚇
                   </motion.button>
                 </motion.div>
               )}
@@ -364,7 +383,7 @@ function ChecklistContent() {
                   className="mt-4 bg-gradient-to-br from-sky-500 to-violet-600 rounded-2xl p-6 text-white text-center shadow-xl"
                 >
                   <div className="text-4xl mb-2">🏆</div>
-                  <p className="font-extrabold text-xl mb-1">Setup Complete!</p>
+                  <p className="font-extrabold text-xl mb-1">Terminus: Paris Life! </p>
                   <p className="text-sky-100 text-sm">
                     You&apos;ve navigated the famous French bureaucracy like a pro. Paris is yours!
                   </p>

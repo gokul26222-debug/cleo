@@ -1,137 +1,58 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { storage } from "@/lib/storage";
 
-type Step = 0 | 1 | 2;
-const TOTAL = 3;
+type Step = 0 | 1;
+const TOTAL = 2;
 
 /* ── per-step visual config ─────────────────────────── */
 const STEPS = [
   {
-    bg: "from-sky-400 to-blue-600",
-    cardBg: "bg-sky-50",
-    accent: "text-sky-600",
-    ring: "ring-sky-400",
-    btn: "bg-sky-500 hover:bg-sky-400",
-    btnShadow: "#0284c7",
-    illustration: "🗼",
-    illuBg: "bg-gradient-to-br from-sky-400 to-blue-600",
-    title: "Welcome to Cleo!",
-    subtitle: "Your personal guide to surviving Paris admin.",
+    bg: "from-metro to-metro-dark",
+    btn: "bg-metro hover:bg-metro-light",
+    btnShadow: "#002B77",
+    illustration: "🚇",
+    illuBg: "bg-gradient-to-br from-metro-light to-metro",
+    title: "Welcome aboard!",
+    subtitle: "Your métro line through Paris admin — 7 stops, your pace.",
     praise: "",
   },
   {
-    bg: "from-rose-400 to-pink-600",
-    cardBg: "bg-rose-50",
-    accent: "text-rose-600",
-    ring: "ring-rose-400",
-    btn: "bg-rose-500 hover:bg-rose-400",
-    btnShadow: "#be185d",
-    illustration: "📅",
-    illuBg: "bg-gradient-to-br from-rose-400 to-pink-600",
-    title: "When did you arrive?",
-    subtitle: "We'll track your 7-day progress from this date.",
-    praise: "Parfait! 📅",
-  },
-  {
-    bg: "from-emerald-400 to-teal-600",
-    cardBg: "bg-emerald-50",
-    accent: "text-emerald-600",
-    ring: "ring-emerald-400",
-    btn: "bg-emerald-500 hover:bg-emerald-400",
-    btnShadow: "#065f46",
-    illustration: "✨",
-    illuBg: "bg-gradient-to-br from-emerald-400 to-teal-600",
-    title: "Last step!",
-    subtitle: "What should Cleo call you?",
-    praise: "Incroyable! ✨",
+    bg: "from-metro to-metro-dark",
+    btn: "bg-ticket hover:bg-ticket-dark text-metro-dark",
+    btnShadow: "#E0B400",
+    illustration: "🎫",
+    illuBg: "bg-gradient-to-br from-ticket to-ticket-dark",
+    title: "Get your ticket!",
+    subtitle: "What name should we print on it?",
+    praise: "Parfait! 🎫",
   },
 ];
-
-/* ── Praise overlay shown briefly after each step ────── */
-function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
-  const hasFired = useRef(false);
-
-  const handleAnimComplete = () => {
-    // Only fire once — prevent double-trigger from exit animation
-    if (hasFired.current) return;
-    hasFired.current = true;
-    setTimeout(onDone, 700);
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
-    >
-      <motion.div
-        initial={{ scale: 0.5, opacity: 0, y: 30 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        onAnimationComplete={handleAnimComplete}
-        className="bg-white rounded-3xl px-10 py-8 shadow-2xl text-center"
-      >
-        <p className="text-3xl font-black text-slate-900">{text}</p>
-      </motion.div>
-    </motion.div>
-  );
-}
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>(0);
   const [direction, setDirection] = useState(1);
-  const [showPraise, setShowPraise] = useState(false);
   const [finishing, setFinishing] = useState(false);
-
-  /* field values */
-  const [arrivalDate, setArrivalDate] = useState("");
   const [name, setName] = useState("");
-
-  const localToday = useMemo(() => {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  }, []);
 
   const s = STEPS[step] ?? STEPS[0];
 
   const canProceed = () => {
-    if (step === 1) return arrivalDate !== "";
-    if (step === 2) return name.trim() !== "";
+    if (step === 1) return name.trim() !== "";
     return true;
   };
 
   const advance = () => {
     if (step < TOTAL - 1) {
-      if (step > 0) {
-        setShowPraise(true);
-      } else {
-        setDirection(1);
-        setStep((s) => (s + 1) as Step);
-      }
+      setDirection(1);
+      setStep((s) => (s + 1) as Step);
     } else {
       handleFinish();
     }
-  };
-
-  const praiseDoneRef = useRef(false);
-  const handlePraiseDone = () => {
-    if (praiseDoneRef.current) return; // prevent double-fire
-    praiseDoneRef.current = true;
-    setShowPraise(false);
-    setDirection(1);
-    setStep((s) => (s + 1) as Step);
-    // Reset after a short delay so next praise can work
-    setTimeout(() => { praiseDoneRef.current = false; }, 500);
   };
 
   const goBack = () => {
@@ -145,12 +66,11 @@ export default function OnboardingPage() {
       storage.setUser({
         name: name.trim(),
         nationality: "International Student",
-        arrivalDate,
         university: "Paris University",
       });
       storage.setOnboarded();
     } catch { /* ignore */ }
-    await new Promise((r) => setTimeout(r, 1200));
+    await new Promise((r) => setTimeout(r, 1600));
     router.push("/dashboard");
   };
 
@@ -160,23 +80,45 @@ export default function OnboardingPage() {
     exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
   };
 
-  /* ── FINISH SCREEN ─────────────────────────────────── */
+  /* ── FINISH SCREEN: ticket stamped, train departs ──── */
   if (finishing) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-emerald-400 to-teal-600 flex flex-col items-center justify-center px-6">
+      <div className="min-h-screen bg-gradient-to-b from-metro to-metro-dark flex flex-col items-center justify-center px-6 overflow-hidden">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 14 }}
           className="text-center"
         >
+          {/* Stamped ticket */}
           <motion.div
-            animate={{ rotate: [0, -15, 15, -10, 10, 0], scale: [1, 1.2, 1] }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-8xl mb-6"
+            initial={{ rotate: -6 }}
+            animate={{ rotate: [-6, 3, -2, 0] }}
+            transition={{ duration: 0.7 }}
+            className="bg-ticket rounded-2xl px-8 py-5 shadow-2xl mb-8 relative mx-auto w-fit"
           >
-            🎉
+            <p className="text-metro-dark font-black text-lg tracking-widest uppercase">Cléo Pass</p>
+            <p className="text-metro font-bold text-sm mt-0.5">{name.trim()} · 7 stops</p>
+            <motion.div
+              initial={{ scale: 2.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 12 }}
+              className="absolute -right-3 -top-3 bg-white rounded-full w-12 h-12 flex items-center justify-center border-4 border-metro rotate-12 text-xl"
+            >
+              ✅
+            </motion.div>
           </motion.div>
+
+          {/* Train departs across the screen */}
+          <motion.div
+            initial={{ x: "-60vw" }}
+            animate={{ x: "60vw" }}
+            transition={{ delay: 0.8, duration: 1.2, ease: "easeIn" }}
+            className="text-6xl mb-6"
+          >
+            🚇
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -189,23 +131,10 @@ export default function OnboardingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-emerald-100 text-base"
+            className="text-white/70 text-base"
           >
-            Your Paris journey starts now 🗼
+            Next stop: settled in Paris 🗼
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="mt-6 flex items-center justify-center gap-2 text-emerald-200 text-sm"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-              className="w-4 h-4 border-2 border-emerald-200 border-t-transparent rounded-full"
-            />
-            Setting up your dashboard...
-          </motion.div>
         </motion.div>
       </div>
     );
@@ -213,13 +142,6 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden bg-white">
-      {/* Praise overlay */}
-      <AnimatePresence>
-        {showPraise && (
-          <PraiseOverlay text={s.praise} onDone={handlePraiseDone} />
-        )}
-      </AnimatePresence>
-
       {/* Top gradient strip with progress */}
       <motion.div
         transition={{ duration: 0.5 }}
@@ -242,7 +164,7 @@ export default function OnboardingPage() {
                 key={i}
                 animate={{
                   flex: i === step ? 3 : 1,
-                  backgroundColor: i < step ? "rgba(255,255,255,0.9)" : i === step ? "#ffffff" : "rgba(255,255,255,0.3)",
+                  backgroundColor: i < step ? "rgba(255,205,0,0.9)" : i === step ? "#FFCD00" : "rgba(255,255,255,0.3)",
                 }}
                 transition={{ duration: 0.35 }}
                 className="h-2 rounded-full"
@@ -260,7 +182,7 @@ export default function OnboardingPage() {
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 18 }}
             className={`w-24 h-24 ${s.illuBg} rounded-3xl shadow-2xl shadow-black/20 flex items-center justify-center`}
-            style={{ filter: "brightness(1.15)" }}
+            style={{ filter: "brightness(1.1)" }}
           >
             <span className="text-5xl">{s.illustration}</span>
           </motion.div>
@@ -299,7 +221,7 @@ export default function OnboardingPage() {
               {step === 0 && (
                 <div className="space-y-3">
                   {[
-                    { emoji: "🗓️", title: "7-Day Action Plan", desc: "Bank, SIM, CAF, CPAM, Navigo — step by step." },
+                    { emoji: "🚇", title: "7-Stop Journey", desc: "Bank, SIM, CAF, CPAM, Navigo — one stop at a time, at YOUR pace." },
                     { emoji: "💬", title: "AI Assistant", desc: "Ask anything in English. Cleo answers instantly." },
                     { emoji: "📂", title: "Document Vault", desc: "All your paperwork in one safe place." },
                     { emoji: "📅", title: "Appointment Tracker", desc: "Book & manage all your service appointments." },
@@ -320,7 +242,12 @@ export default function OnboardingPage() {
                       </div>
                     </motion.div>
                   ))}
-                  <div className="flex items-center justify-center gap-6 pt-2">
+                  <div className="bg-metro-tint border border-metro/10 rounded-2xl p-3 text-center">
+                    <p className="text-metro text-xs font-semibold">
+                      Arrived last week? Last month? No stress — your journey starts when YOU do. 🚉
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center gap-6 pt-1">
                     {["🇫🇷", "🇮🇳", "🇧🇷", "🇨🇳", "🇺🇸", "🇲🇦"].map((flag, i) => (
                       <motion.span
                         key={flag}
@@ -336,73 +263,8 @@ export default function OnboardingPage() {
                 </div>
               )}
 
-              {/* ── STEP 1: Arrival date ───────────────────── */}
+              {/* ── STEP 1: Name ───────────────────────────── */}
               {step === 1 && (
-                <div>
-                  <div className="bg-slate-50 rounded-2xl border-2 border-slate-100 p-2 mb-4">
-                    <input
-                      type="date"
-                      value={arrivalDate}
-                      onChange={(e) => setArrivalDate(e.target.value)}
-                      max={localToday}
-                      className="w-full bg-transparent text-slate-800 text-lg font-bold outline-none px-3 py-3 text-center"
-                    />
-                  </div>
-                  <AnimatePresence>
-                    {arrivalDate && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        className="bg-rose-50 border border-rose-100 rounded-2xl p-4 text-center"
-                      >
-                        <p className="text-rose-600 font-bold text-sm">
-                          📅 Tracking from{" "}
-                          {new Date(`${arrivalDate}T00:00:00`).toLocaleDateString("en-GB", {
-                            day: "numeric", month: "long", year: "numeric",
-                          })}
-                        </p>
-                        <p className="text-rose-400 text-xs mt-1">
-                          Cleo will show you exactly what to do each day.
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {!arrivalDate && (
-                    <div className="grid grid-cols-3 gap-2 mt-3">
-                      {[
-                        { label: "Today", value: localToday },
-                        {
-                          label: "Yesterday",
-                          value: (() => {
-                            const d = new Date(Date.now() - 86400000);
-                            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-                          })(),
-                        },
-                        {
-                          label: "Last week",
-                          value: (() => {
-                            const d = new Date(Date.now() - 7 * 86400000);
-                            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-                          })(),
-                        },
-                      ].map((q) => (
-                        <motion.button
-                          key={q.label}
-                          whileTap={{ scale: 0.94 }}
-                          onClick={() => setArrivalDate(q.value)}
-                          className="py-2.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-600 text-xs font-bold hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 transition"
-                        >
-                          {q.label}
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* ── STEP 2: Name ───────────────────────────── */}
-              {step === 2 && (
                 <div>
                   <input
                     type="text"
@@ -411,28 +273,24 @@ export default function OnboardingPage() {
                     placeholder="Your first name"
                     autoFocus
                     onKeyDown={(e) => e.key === "Enter" && canProceed() && advance()}
-                    className="w-full border-2 border-slate-200 focus:border-emerald-400 rounded-2xl px-4 py-4 text-slate-800 font-bold text-xl outline-none transition placeholder:text-slate-300 placeholder:font-normal text-center mb-4"
+                    className="w-full border-2 border-slate-200 focus:border-metro rounded-2xl px-4 py-4 text-slate-800 font-bold text-xl outline-none transition placeholder:text-slate-300 placeholder:font-normal text-center mb-4"
                   />
                   <AnimatePresence>
                     {name.trim() && (
                       <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 12 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.9, y: 12, rotate: -3 }}
+                        animate={{ opacity: 1, scale: 1, y: 0, rotate: -1 }}
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-3xl p-5 text-center"
+                        className="bg-ticket border-2 border-ticket-dark rounded-2xl p-5 text-center shadow-lg mx-4"
                       >
-                        <motion.div
-                          animate={{ rotate: [0, -10, 10, 0] }}
-                          transition={{ delay: 0.2, duration: 0.5 }}
-                          className="text-4xl mb-2"
-                        >
-                          👋
-                        </motion.div>
-                        <p className="text-2xl font-black text-emerald-700 mb-1">
-                          Bonjour, {name.trim()}!
+                        <p className="text-metro-dark/60 text-[10px] font-black tracking-[0.3em] uppercase mb-1">
+                          ─ Cléo Pass ─
                         </p>
-                        <p className="text-emerald-500 text-sm">
-                          Cleo is ready to be your Paris guide 🗼
+                        <p className="text-2xl font-black text-metro-dark mb-1">
+                          {name.trim()}
+                        </p>
+                        <p className="text-metro text-xs font-bold">
+                          Valid for 7 stops · Paris 🗼
                         </p>
                       </motion.div>
                     )}
@@ -451,13 +309,9 @@ export default function OnboardingPage() {
             onClick={advance}
             disabled={!canProceed()}
             style={{ boxShadow: canProceed() ? `0 5px 0 ${s.btnShadow}` : "none" }}
-            className={`w-full ${s.btn} text-white font-black text-lg py-4 rounded-2xl transition-all disabled:opacity-35 disabled:cursor-not-allowed disabled:shadow-none`}
+            className={`w-full ${s.btn} ${step === 1 ? "" : "text-white"} font-black text-lg py-4 rounded-2xl transition-all disabled:opacity-35 disabled:cursor-not-allowed disabled:shadow-none`}
           >
-            {step === 0
-              ? "LET'S GO! 🚀"
-              : step === TOTAL - 1
-              ? "START MY JOURNEY ✨"
-              : "CONTINUE →"}
+            {step === 0 ? "HOP ON! 🚇" : "STAMP MY TICKET ✨"}
           </motion.button>
         </div>
       </div>

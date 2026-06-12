@@ -11,6 +11,18 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        // Paris métro-inspired palette
+        metro: {
+          DEFAULT: "#003CA6", // RATP signage blue
+          dark: "#002B77",
+          light: "#3D6FD6",
+          tint: "#EDF2FC",
+        },
+        ticket: {
+          DEFAULT: "#FFCD00", // métro line 1 yellow
+          dark: "#E0B400",
+          tint: "#FFF8DC",
+        },
       },
     },
   },

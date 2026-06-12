@@ -1,7 +1,8 @@
 export interface UserProfile {
   name: string;
   nationality: string;
-  arrivalDate: string;
+  /** Legacy field — journey progress is now task-based, not calendar-based */
+  arrivalDate?: string;
   university: string;
 }
 
