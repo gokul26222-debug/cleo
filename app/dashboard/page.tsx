@@ -103,6 +103,14 @@ export default function DashboardPage() {
       shadow: "shadow-orange-200",
       desc: "Free spots",
     },
+    {
+      label: "Must-have Apps",
+      emoji: "📲",
+      href: "/apps",
+      bg: "bg-indigo-500",
+      shadow: "shadow-indigo-200",
+      desc: "Paris app kit",
+    },
   ];
 
   return (
@@ -252,7 +260,7 @@ export default function DashboardPage() {
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2.5 px-1">
             Quick Actions
           </p>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {quickActions.map((action, i) => (
               <motion.div
                 key={action.href}

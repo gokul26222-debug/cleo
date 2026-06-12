@@ -179,6 +179,29 @@ export const knowledgeBase: KnowledgeChunk[] = [
     content: `After administrative registration, visit your university's student services office (Scolarité or Bureau de la Vie Étudiante) with your registration proof (quittance) to collect your student card (carte étudiante). This card gives access to: university libraries and study spaces, discounts at restaurants/cafés (usually 20-30% off), free or reduced entry to Paris museums (Louvre, Musée d'Orsay), reduced transport passes (Imagine R for students under 26), and student discounts at stores. Your card is valid for the academic year.`,
     source: "etudiant.gouv.fr",
   },
+
+  // ── Essential Apps ──────────────────────────────────────────────
+  {
+    id: "apps-transport",
+    tags: ["app", "apps", "metro", "transport", "citymapper", "ratp", "navigo", "train", "bike", "velib"],
+    title: "Best apps for getting around Paris",
+    content: `For navigating Paris: Citymapper is the best route planner — combines metro, RER, bus, bike and walking, and reroutes during strikes. Bonjour RATP is the official transport app — reload your Navigo pass directly from your phone via NFC. For trains across France, use SNCF Connect (get the Carte Avantage Jeune for €49/year — up to 50% off, ages 12-27). Vélib' is the public bike app — student plan is about €2.65/month for unlimited 30-min rides. Cleo has a full curated app list on the Apps page (/apps).`,
+    source: "Cleo app kit",
+  },
+  {
+    id: "apps-health-money",
+    tags: ["app", "apps", "doctor", "doctolib", "ameli", "deals", "food", "cheap", "discount", "lydia", "money"],
+    title: "Best apps for health, money and deals in Paris",
+    content: `For health: Doctolib lets you book any doctor in minutes — filter by 'English' under spoken languages. The ameli app is your official CPAM account — download your attestation de droits there while waiting for your Carte Vitale. For saving money: Too Good To Go gives you €3-4 surprise bags of surplus food from bakeries and restaurants. Lydia is France's Venmo — how students split bills. UNiDAYS unlocks verified student discounts (Apple, Spotify, fashion). Cleo has a full curated app list on the Apps page (/apps).`,
+    source: "Cleo app kit",
+  },
+  {
+    id: "apps-student-daily",
+    tags: ["app", "apps", "crous", "izly", "meal", "restaurant universitaire", "whatsapp", "translate", "housing", "leboncoin", "flatshare"],
+    title: "Best apps for student life and daily survival in Paris",
+    content: `Student essentials: Crous Mobile finds the nearest university restaurant (RU) with €3.30 full meals (€1 for scholarship students); Izly is how you pay there. For housing and furniture: LeBonCoin (France's Craigslist — search 'donne' for free furniture), SeLoger for apartments, La Carte des Colocs for flatshares. Daily survival: Google Translate camera mode reads French letters and forms instantly (download the offline French pack); WhatsApp is how everyone communicates in France — join your program's group chat in week one. Cleo has a full curated app list on the Apps page (/apps).`,
+    source: "Cleo app kit",
+  },
 ];
 
 /**
