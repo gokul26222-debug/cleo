@@ -74,7 +74,7 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
       {/* Header */}
       <div className="bg-gradient-to-b from-indigo-500 to-indigo-600 px-6 pt-14 pb-8 text-white">
         <motion.div

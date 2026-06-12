@@ -99,7 +99,7 @@ function ChecklistContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
       <Confetti active={justCompleted} />
 
       {/* Header */}
@@ -118,7 +118,7 @@ function ChecklistContent() {
                 onClick={() => setSelectedDay(d.day)}
                 className={`flex-shrink-0 flex flex-col items-center px-3.5 py-2.5 rounded-2xl border-2 transition-all ${
                   active
-                    ? "border-sky-500 bg-sky-50 shadow-sm"
+                    ? "border-[#58cc02] bg-green-50 shadow-sm"
                     : done
                     ? "border-green-200 bg-green-50"
                     : "border-slate-100 bg-white"
@@ -126,7 +126,7 @@ function ChecklistContent() {
               >
                 <span className="text-lg">{done ? "✅" : d.emoji}</span>
                 <span className={`text-[11px] font-bold mt-0.5 ${
-                  active ? "text-sky-600" : done ? "text-green-600" : "text-slate-400"
+                  active ? "text-[#58cc02]" : done ? "text-green-600" : "text-slate-400"
                 }`}>
                   Day {d.day}
                 </span>
@@ -174,7 +174,7 @@ function ChecklistContent() {
                 </div>
                 <div className="bg-slate-100 rounded-full h-2.5 overflow-hidden">
                   <motion.div
-                    className={`h-full rounded-full ${allDone ? "bg-green-500" : "bg-sky-500"}`}
+                    className={`h-full rounded-full ${allDone ? "bg-green-500" : "bg-[#58cc02]"}`}
                     animate={{ width: `${(completedSteps.length / day.steps.length) * 100}%` }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   />
@@ -328,7 +328,7 @@ function ChecklistContent() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                className="mt-4 w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-violet-100 flex items-center justify-center gap-2 transition"
+                className="mt-4 w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-green-100 flex items-center justify-center gap-2 transition"
               >
                 <span>💬</span> Ask Cléo about {day.title}
               </motion.button>
@@ -361,7 +361,7 @@ function ChecklistContent() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="mt-4 bg-gradient-to-br from-sky-500 to-violet-600 rounded-2xl p-6 text-white text-center shadow-xl"
+                  className="mt-4 bg-gradient-to-br from-[#58cc02] to-emerald-500 rounded-2xl p-6 text-white text-center shadow-xl"
                 >
                   <div className="text-4xl mb-2">🏆</div>
                   <p className="font-extrabold text-xl mb-1">Setup Complete!</p>

@@ -206,7 +206,7 @@ function ChatContent() {
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ repeat: Infinity, duration: 3 }}
-            className="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md shadow-sky-200"
+            className="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md shadow-green-200"
           >
             C
           </motion.div>
@@ -242,7 +242,7 @@ function ChatContent() {
               <div className="max-w-[82%]">
                 <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                   msg.role === "user"
-                    ? "bg-gradient-to-br from-sky-500 to-sky-600 text-white rounded-br-sm shadow-md shadow-sky-100"
+                    ? "bg-gradient-to-br from-[#58cc02] to-sky-600 text-white rounded-br-sm shadow-md shadow-green-100"
                     : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-bl-sm"
                 }`}>
                   {msg.content}
@@ -308,7 +308,7 @@ function ChatContent() {
                   key={q}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => sendMessage(q)}
-                  className="text-xs bg-white border border-slate-200 text-slate-600 rounded-full px-3 py-1.5 hover:border-sky-300 hover:text-sky-600 hover:bg-sky-50 transition shadow-sm"
+                  className="text-xs bg-white border border-slate-200 text-slate-600 rounded-full px-3 py-1.5 hover:border-green-300 hover:text-[#58cc02] hover:bg-green-50 transition shadow-sm"
                 >
                   {q}
                 </motion.button>
@@ -344,10 +344,10 @@ function ChatContent() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 4, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="mb-2 flex items-center gap-2 bg-sky-50 border border-sky-200 rounded-2xl p-2.5"
+              className="mb-2 flex items-center gap-2 bg-green-50 border border-green-200 rounded-2xl p-2.5"
             >
               {/* Thumbnail or icon */}
-              <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 bg-white border border-sky-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 bg-white border border-green-100 flex items-center justify-center">
                 {attachment.isImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={attachment.preview} alt={attachment.name} className="w-full h-full object-cover" />
@@ -358,7 +358,7 @@ function ChatContent() {
 
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-sky-800 truncate">{attachment.name}</p>
-                <p className="text-[10px] text-sky-500 mt-0.5">
+                <p className="text-[10px] text-[#58cc02] mt-0.5">
                   {attachment.isImage ? "Image" : "PDF"} · Ready to send
                 </p>
               </div>
@@ -390,8 +390,8 @@ function ChatContent() {
             onClick={() => fileRef.current?.click()}
             className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all ${
               attachment
-                ? "bg-sky-500 text-white shadow-md shadow-sky-200"
-                : "bg-slate-100 text-slate-500 hover:bg-sky-100 hover:text-sky-600"
+                ? "bg-[#58cc02] text-white shadow-md shadow-green-200"
+                : "bg-slate-100 text-slate-500 hover:bg-sky-100 hover:text-[#58cc02]"
             }`}
             title="Attach image or PDF"
           >
@@ -408,7 +408,7 @@ function ChatContent() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
             placeholder={attachment ? "Ask about this document…" : "Ask Cléo anything…"}
-            className="flex-1 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-sky-400 transition"
+            className="flex-1 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-green-400 transition"
           />
 
           {/* Send button */}
@@ -416,7 +416,7 @@ function ChatContent() {
             whileTap={{ scale: 0.88 }}
             onClick={() => sendMessage()}
             disabled={(!input.trim() && !attachment) || loading}
-            className="w-10 h-10 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-md hover:shadow-sky-200 transition-all flex-shrink-0"
+            className="w-10 h-10 bg-gradient-to-br from-[#58cc02] to-blue-600 rounded-2xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-md hover:shadow-green-200 transition-all flex-shrink-0"
           >
             <svg className="w-4 h-4 text-white -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

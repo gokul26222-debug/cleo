@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomNav from "@/components/BottomNav";
 
@@ -284,7 +285,7 @@ export default function ExplorePage() {
   const totalSavings = "500+";
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-white pb-28">
       {/* ── HERO HEADER ── */}
       <div className="relative bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600 px-6 pt-14 pb-10 text-white overflow-hidden">
         {/* Floating emojis */}
@@ -397,6 +398,27 @@ export default function ExplorePage() {
       </div>
 
       <div className="px-5 -mt-5 max-w-lg mx-auto relative z-10">
+        {/* Essential apps banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-3"
+        >
+          <Link href="/apps">
+            <motion.div
+              whileTap={{ scale: 0.97 }}
+              className="bg-gradient-to-r from-indigo-500 to-violet-600 rounded-2xl px-4 py-3.5 flex items-center gap-3 shadow-lg shadow-indigo-200/50"
+            >
+              <span className="text-2xl">📲</span>
+              <div className="flex-1">
+                <p className="text-white font-bold text-sm">Your Paris App Kit</p>
+                <p className="text-indigo-100 text-xs">The apps every student here actually needs</p>
+              </div>
+              <span className="text-white/70 font-bold">→</span>
+            </motion.div>
+          </Link>
+        </motion.div>
+
         {/* Search bar */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
