@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { storage } from "@/lib/storage";
@@ -74,10 +74,6 @@ function PraiseOverlay({ text, onDone }: { text: string; onDone: () => void }) {
   );
 }
 
-/* ── date helpers ────────────────────────────────────── */
-function toDateString(d: Date): string {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -98,7 +94,6 @@ export default function OnboardingPage() {
     }
   }, [router]);
 
-  const today = useMemo(() => toDateString(new Date()), []);
 
   const s = STEPS[step] ?? STEPS[0];
 
@@ -354,7 +349,7 @@ export default function OnboardingPage() {
                       type="date"
                       value={arrivalDate}
                       onChange={(e) => setArrivalDate(e.target.value)}
-                      max={today}
+                      min="2024-01-01"
                       className="w-full bg-transparent text-slate-800 text-lg font-bold outline-none px-3 py-3 text-center"
                     />
                   </div>
