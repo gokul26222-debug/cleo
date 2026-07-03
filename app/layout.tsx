@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import PostHogProvider from "@/components/PostHogProvider";
+import PostHogPageView from "@/components/PostHogPageView";
 
 export const metadata: Metadata = {
   title: "Cléo — Your Paris Student Assistant",
@@ -22,7 +24,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <PostHogProvider>
+          <PostHogPageView />
+          {children}
+        </PostHogProvider>
+      </body>
     </html>
   );
 }

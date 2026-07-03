@@ -122,7 +122,7 @@ export default function LandingPage() {
           </div>
 
           <h1 className="text-4xl font-black text-slate-900 leading-tight mb-3 tracking-tight">
-            Navigate Paris<br />
+            Navigate Paris{" "}<br />
             <span className="text-[#58cc02]">like a local.</span>
           </h1>
           <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto">
